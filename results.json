@@ -1,0 +1,29 @@
+{
+  "question": "Does a class-conditional, quality-filtered synthetic generator give a downstream classifier more test accuracy than standard image augmentation when only a few real labeled examples per class are available?",
+  "method": "15 real images/class; baseline = 10x shift/rotate/noise augmentation + MLP; improved = per-class shrinkage Gaussian in PCA space, filtered by logistic-regression confidence >= 0.8, same MLP; seeds 42-44.",
+  "dataset": {
+    "name": "scikit-learn load_digits",
+    "source_url": "https://scikit-learn.org/stable/datasets/toy_dataset.html",
+    "n_rows": 1797,
+    "n_train": 1257,
+    "n_test": 540,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "test accuracy",
+  "higher_is_better": true,
+  "baseline": "Standard augmentation generator (random shifts, small rotations, pixel noise; 10 synthetic per real image) with an MLPClassifier trained on real + synthetic.",
+  "improved": "Class-conditional Gaussian generator in PCA space with Ledoit-Wolf shrinkage, same number of samples before filtering, kept only if a logistic regression trained on real images assigns the intended class probability >= 0.8; same MLPClassifier.",
+  "metrics": {
+    "baseline_score": 0.9055555555555556,
+    "improved_score": 0.9111111111111111,
+    "improvement": 0.005555555555555536,
+    "baseline_score_std": 0.010475656017578498,
+    "improved_score_std": 0.011809337326980845,
+    "baseline_f1": 0.9041594887510893,
+    "improved_f1": 0.9109324329272065,
+    "kept_fraction": 0.7295555555555554,
+    "n_generated_per_seed": 1500
+  },
+  "notes": "Digits are a stand-in for document character crops, not the paper's VLM/diffusion pipeline. Hyper-parameters were fixed a priori (no tuning, so no test-set selection; no CV search was needed). Three seeds (42-44) per the mandated protocol. The filter classifier is trained only on the same real images. Std values are population std across seeds and are based on very few runs."
+}
