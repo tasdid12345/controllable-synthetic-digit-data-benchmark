@@ -33,6 +33,26 @@ python analysis.py
 ## Results
 Results are written to `results.json` (and a bar chart to `figures/accuracy_bar.png`).
 
+## Results (latest run)
+
+On the scikit-learn load_digits test set (540 images), a standard image-augmentation generator (random shifts, rotations and noise) with an MLP classifier reached 90.6% test accuracy, versus 91.1% for the class-conditional, quality-filtered Gaussian generator, a small gain within seed-to-seed variation.
+
+| Metric | Value |
+|---|---|
+| baseline_score | 0.9056 |
+| improved_score | 0.9111 |
+| improvement | 0.005556 |
+| baseline_score_std | 0.01048 |
+| improved_score_std | 0.01181 |
+| baseline_f1 | 0.9042 |
+| improved_f1 | 0.9109 |
+| kept_fraction | 0.7296 |
+| n_generated_per_seed | 1500 |
+
+Run on 2026-10-12. Full output: [results.json](results.json) · [run.log](run.log)
+
+Notes: Digits are a stand-in for document character crops, not the paper's VLM/diffusion pipeline. Hyper-parameters were fixed a priori (no tuning, so no test-set selection; no CV search was needed). Three seeds (42-44) per the mandated protocol. The filter classifier is trained only on the same real images. Std values are population std across seeds and are based on very few runs.
+
 ## Reference
 
 This project is motivated by the following paper:
